@@ -41,11 +41,11 @@ class Logmessage(db.Model):
 
 @app.route("/")
 def homepage():
-	return "Learn Agular, make front end and return it here"
+	return render_template("index.html")
 	#HOW TO MAKE IT SHOW THE FORM FIELDS AND REAL TIME DATA
 	#return render_template("index.html")  #create HTML page here
 
-# @app.route("/posted", methods = ["POST"]) #add logpost number to url end
+# @app.route("/posted", methods = ['POST']) #add logpost number to url end
 # def loghandler():
 # 	username = None
 # 	message = None
