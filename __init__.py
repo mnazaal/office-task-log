@@ -2,13 +2,13 @@ from flask import Flask, render_template, request
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from sqlalchemy.schema import Sequence, CreateSequence
+# from sqlalchemy.schema import Sequence, CreateSequence
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mnazaal'
 db = SQLAlchemy(app)
 
-#create database model, using SQLAlchemy
+# create database model, using SQLAlchemy
 # class User(db.Model):
 # 	__tablename__ = "logappuser"
 # 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)  #primary key
@@ -52,7 +52,7 @@ def message_post():
 	message = None
 	if request.method == "POST":
 		text = request.form["messagebox"]  #enter the name attribute of form element in []
-		msg = Logmessage(101,text,'admin') #needs to generate a unique primary key
+		msg = Logmessage(103,text,'admin') #needs to generate a unique primary key, username doesnt post
 		db.session.add(msg)
 		db.session.commit()
 		return render_template("index.html")

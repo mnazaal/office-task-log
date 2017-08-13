@@ -9,4 +9,12 @@
 			console.log("This button2 works");
 		}
 		//ENTER CONTROLLER LOGIC HERE
+   function ajaxFunction(){
+      var ajaxRequest;  // The variable that makes Ajax possible!
+
+      try{
+         // Opera 8.0+, Firefox, Safari 
+         ajaxRequest = new XMLHttpRequest();
+      }catch (e)
+		
 	});
