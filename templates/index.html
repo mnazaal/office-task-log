@@ -1,12 +1,61 @@
  <!DOCTYPE html>
 <html lang="en-US">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<body>
+<head>
+	<title>Hellow world</title>
+</head>
+<body> 
 
-<div ng-app="">
-  <p>Name : <input type="text" ng-model="name"></p>
-  <h1>Hello {{name}}</h1>
+<!-- <div ng-app="HelloWorldApp" ng-controller="HelloWorldController">
+
+    <h1>Hello {{who}} </h1>
+
+
+    <div ng-controller="whoAmI">
+        <span style="font:15px Verdana;">I am {{firstname}} {{lastname}}!</span>
+    </div>
+
+</div> -->
+
+<!-- <script>
+var HWApp = angular.module('HelloWorldApp', []);
+	
+HWApp.controller(
+    'HelloWorldController',
+    ['$scope', function ($greet) {
+        $greet.who = 'World!';
+    } ]
+);
+
+HWApp.controller(
+    'whoAmI',
+    ['$scope', function ($greet1) {
+        $greet1.firstname = 'Mohamed';
+        $greet1.lastname = 'Nazaal';
+    } ]
+);
+</script> -->
+<script>
+	var messageBoardApp = angular.module("messageBoardApp", []);  //defining a module named messageBoard
+	var MessageBoardController = messageBoardApp.controller("MessageBoardController", function($scope){  //registering the controller with the app/module, using the controller method with the controller and a constructor method as arguements, $scope object refers to current context for the view/it is the model used by the view
+		$scope.message = "The variable is showing"; //declaring variable message which can be used in the view now
+		$scope.testmethod function(){
+			console.log("This method works");
+		}
+		//ENTER CONTROLLER LOGIC HERE
+	});
+
+</script>
+
+<div ng-app = "messageBoardApp"> <!--This runs the angular module named messageboardApp -->
+	<h1>Angular hello world</h1>
+		<div ng-controller="MessageBoardController">
+			{{message}} 
+			<button ng-click="testmethod()">Insert button name</button>
+		</div>
+
 </div>
+
 
 </body>
 </html> 

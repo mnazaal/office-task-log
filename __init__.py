@@ -39,7 +39,7 @@ class Logmessage(db.Model):
 		return '<Message %r' % self.message #check this line
 
 
-@app.route("/")
+@app.route("/", methods = ['POST', 'GET'])
 def homepage():
 	return render_template("index.html")
 	#HOW TO MAKE IT SHOW THE FORM FIELDS AND REAL TIME DATA
