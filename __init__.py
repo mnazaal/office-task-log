@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 #create database model, using SQLAlchemy
 class User(db.Model):
 	__tablename__ = "logappuser"
-	id = db.Column(db.Integer, primary_key=True)  #primary key
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)  #primary key
 	username = db.Column(db.String(80), unique=True)  #username of mma user, note to grab this data from other source
 	messages = relationship("Logmessage") #creating one to many relationship
 
@@ -29,19 +29,35 @@ class Logmessage(db.Model):
 	message = db.Column(db.String(200))
 	user_name = db.Column(db.String(80), ForeignKey("logappuser.username")) #the user who posted the message
 
-	def __init__(self, id, message):
+	def __init__(self, id, message, username):
 		self.id = id
 		self.message = message
-		self.user_name = user_name
+		self.username = username
 
 	def __repr__(self, message):
 		return '<Username %r' % self.username  #check this line
 		return '<Message %r' % self.message #check this line
 
 
-@app.route("/", methods = ['POST', 'GET'])
+db.create_all() #creating the databases
+
+
+@app.route("/")
 def homepage():
 	return render_template("index.html")
+
+@app.route("/", methods = ['POST', 'GET'])
+def message_post():
+	message = None
+	if request.method == "POST":
+		text = request.form["messagebox"]  #enter the name attribute of form element in []
+		msg = Logmessage(2,text,"Dummy User2")
+		db.session.add(msg)
+		db.session.commit()
+		return render_template("index.html")
+
+
+
 	#HOW TO MAKE IT SHOW THE FORM FIELDS AND REAL TIME DATA
 	#return render_template("index.html")  #create HTML page here
 
