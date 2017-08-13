@@ -2,32 +2,33 @@ from flask import Flask, render_template, request
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import Sequence, CreateSequence
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mnazaal'
 db = SQLAlchemy(app)
 
 #create database model, using SQLAlchemy
-class User(db.Model):
-	__tablename__ = "logappuser"
-	id = db.Column(db.Integer, primary_key=True, autoincrement=True)  #primary key
-	username = db.Column(db.String(80), unique=True)  #username of mma user, note to grab this data from other source
-	messages = relationship("Logmessage") #creating one to many relationship
+# class User(db.Model):
+# 	__tablename__ = "logappuser"
+# 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)  #primary key
+# 	username = db.Column(db.String(80), unique=True)  #username of mma user, note to grab this data from other source
+# 	messages = relationship("Logmessage") #creating one to many relationship
 
-	def __init__(self, id, username):
-		self.id = id
-		self.username = username
-		self.messages = messages
+# 	def __init__(self, id, username):
+# 		self.id = id
+# 		self.username = username
+# 		self.messages = messages
 
-	def __repr__(self, username):
-		return '<Username %r' % self.username  #check this line
-		return '<Message %r' % self.message #check this line
+# 	def __repr__(self, username):
+# 		return '<Username %r' % self.username  #check this line
+# 		return '<Message %r' % self.message #check this line
 
 class Logmessage(db.Model):
 	__tablename__ = "logmessages"
 	id = db.Column(db.Integer, primary_key=True)
-	message = db.Column(db.String(200))
-	user_name = db.Column(db.String(80), ForeignKey("logappuser.username")) #the user who posted the message
+	message = db.Column(db.String(200)) #message posted
+	user_name = db.Column(db.String(80) )#, ForeignKey("logappuser.username")) #the user who posted the message
 
 	def __init__(self, id, message, username):
 		self.id = id
@@ -46,20 +47,20 @@ db.create_all() #creating the databases
 def homepage():
 	return render_template("index.html")
 
-@app.route("/", methods = ['POST', 'GET'])
+@app.route("/", methods = ['POST'])
 def message_post():
 	message = None
 	if request.method == "POST":
 		text = request.form["messagebox"]  #enter the name attribute of form element in []
-		msg = Logmessage(2,text,"Dummy User2")
+		msg = Logmessage(101,text,'admin') #needs to generate a unique primary key
 		db.session.add(msg)
 		db.session.commit()
 		return render_template("index.html")
 
 
 
-	#HOW TO MAKE IT SHOW THE FORM FIELDS AND REAL TIME DATA
-	#return render_template("index.html")  #create HTML page here
+# 	HOW TO MAKE IT SHOW THE FORM FIELDS AND REAL TIME DATA
+# 	return render_template("index.html")  #create HTML page here
 
 # @app.route("/posted", methods = ['POST']) #add logpost number to url end
 # def loghandler():
