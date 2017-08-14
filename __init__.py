@@ -55,55 +55,23 @@ def homepage():
 def message_post():
 	message = None
 	now = datetime.now()
-	if request.method == "POST":
+	if (request.method == "POST") and (request.form["messagebox"] != ""):
 		msgtext = request.form["messagebox"]  #enter the name attribute of form element within []
 		data = Logmessage(datetime.utcnow(), str(msgtext), "nazaal") #must change username, taking it from external server
 		db.session.add(data)
 		db.session.commit()
 		return render_template("index.html", messagelist=Logmessage.query.all())
+	return render_template("index.html", messagelist=Logmessage.query.all())
 
-
-# class Pagination(object):
-# 	def __init__(self, page, per_page, total_count):
-# 		self.page = page
-# 		self.per_page= per_page
-# 		self.total_count = total_count
-
-# 	@property
-# 	def pages(self):
-# 		return int(ceil.self.total_count / float(self.per_page))  #defining number of pages
-
-# 	@property
-# 	def has_prev(self):
-# 		return self.page > 1
-
-# 	@property
-# 	def has_next(self):
-# 		return self.page < self.pages #returns true if there is a next page
-
-# 	def iterate_pages(self, left_edge = 2, left_current = 2, right_current = 5, right_edge = 2):
-# 		last = 0
-# 		for num in xrange(a, self.pages+1):
-
-
+@app.route('/<int:page>',methods=['GET'])
+def view(page=1):
+    per_page = 10
+    posts = Posts.query.order_by(Posts.time.desc()).paginate(page,per_page,error_out=False)
+    return render_template('index.html', posts=posts)
 
 # 	HOW TO MAKE IT SHOW THE FORM FIELDS AND REAL TIME DATA
 # 	return render_template("index.html")  #create HTML page here
 
-# @app.route("/posted", methods = ['POST']) #add logpost number to url end
-# def loghandler():
-# 	username = None
-# 	message = None
-# 	if request.method == "POST":
-# 		username = request.form['username'] #taking data from front-end form
-# 		message = request.form['message']
-# 		post = Log(username, message) #posting username and message to database
-# 		db.session.add(post)
-# 		db.session.commit()
-# 		return render_template("index.html")
-# 	return render_template("index.html")
-
 if __name__ == "__main__":
 	app.debug = True
 	app.run(host="0.0.0.0")
-
