@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="app.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -14,9 +13,36 @@
     <title>Hello world</title>
 </head>
 
+<<<<<<< HEAD
 
 
 <body>
+=======
+<body>
+    </script>
+    <script>
+    var messageBoardApp = angular.module("messageBoardApp", []); //defining a module named messageBoard
+    var MessageBoardController = messageBoardApp.controller("MessageBoardController", function($scope) { //registering the controller with the app/module, using the controller method with the controller and a constructor method as arguements, $scope object refers to current context for the view/it is the model used by the view
+                $scope.message = "The variable is showing"; //declaring variable message which can be used in the view now
+                $scope.testmethod1
+                function() {
+                    console.log("This button1 works");
+                }
+                $scope.testmethod2
+                function() {
+                    console.log("This button2 works");
+                }
+                //ENTER CONTROLLER LOGIC HERE
+                function ajaxFunction() {
+                    var ajaxRequest; // The variable that makes Ajax possible!
+
+                    try {
+                        // Opera 8.0+, Firefox, Safari 
+                        ajaxRequest = new XMLHttpRequest();
+                    } catch (e)
+
+                });
+    </script>
     <div data-ng-app="messageBoardApp" class="container" data-ng-controller="MessageBoardController">
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1>Messageboard</h1> {{message}}
@@ -26,10 +52,18 @@
             <form action="{{url_for('homepage')}}" method="POST">
                 <label for="comment">Log Message:</label>
                 <textarea class="form-control" rows="5" id="comment" name="messagebox" ng-model="message"></textarea>
-                <input type="submit" value="Submit message">
+                <input onclick="app.js" type="submit" value="Submit message">
             </form>
+
         
-<!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button> -->
+
+        </div>
+<!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
+        <button data-ng-click="testmethod1()" type="submit">Submit information</button>
+        <button data-ng-click="testmethod2()">Print information</button>
+        <br> Testing if username prints : {{name}}
+        <br> Testing if comment prints : {{message}} -->
+
         <br>
         <br>
         {% for msg in messagelist %}
@@ -38,11 +72,6 @@
    			 </div>
 		{% endfor %}
 		</div>
-
-<!--         <button data-ng-click="testmethod2()">Print information</button>
-        <br> Testing if username prints : {{name}}
-        <br> Testing if comment prints : {{message}} -->
-    </div>
 </body>
 
 </html>
