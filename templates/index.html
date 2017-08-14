@@ -14,34 +14,34 @@
     <title>Hello world</title>
 </head>
 
-<body>
 
-</script> -->
+
+<body>
     <div data-ng-app="messageBoardApp" class="container" data-ng-controller="MessageBoardController">
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1>Messageboard</h1> {{message}}
         <label for="username">Username:</label>
         <input type="text" class="form-control" ng-model="name" id="user">
-        <!--binds HTML input to the variable name-->
         <div class="form-group">
             <form action="{{url_for('homepage')}}" method="POST">
                 <label for="comment">Log Message:</label>
                 <textarea class="form-control" rows="5" id="comment" name="messagebox" ng-model="message"></textarea>
                 <input type="submit" value="Submit message">
             </form>
-        </div>
+        
 <!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button> -->
         <br>
         <br>
-        <button data-ng-click="testmethod2()">Print information</button>
+        {% for msg in messagelist %}
+		    <div class="container">
+        		{{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+   			 </div>
+		{% endfor %}
+		</div>
+
+<!--         <button data-ng-click="testmethod2()">Print information</button>
         <br> Testing if username prints : {{name}}
-        <br> Testing if comment prints : {{message}}
-<!--         <form class="col-lg-12" action="{{url_for('homepage')}}" method="POST">
-            <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-                <input class="form-control input-lg" title="Don't worry. We hate spam, and will not share your email with anyone." placeholder="Enter your email address" type="email" name="email">
-                <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">GO</button></span>
-            </div>
-        </form> -->
+        <br> Testing if comment prints : {{message}} -->
     </div>
 </body>
 
