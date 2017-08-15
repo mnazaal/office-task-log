@@ -1,52 +1,62 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" data-ng-app = messageBoardApp>
 
 <head>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="http://10.0.2.15/var/www/logapp/templates/app.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js')}}"</script>
     <title>Hello world</title>
 </head>
 
-
 <body>
     </script>
-
-    <div  class="container" data-ng-controller="MessageBoardController">
+    <div class="container" data-ng-controller="MessageBoardController">
+            Search specific date : 
+        <form>
+        <input type="date" name="date">
+        </form>
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
-        <h1>Messageboard</h1> {{message}}
+        <h1>Messageboard</h1> 
         <label for="username">Username:</label>
         <input type="text" class="form-control" ng-model="name" id="user">
         <div class="form-group">
             <form action="{{url_for('homepage')}}" method="POST">
                 <label for="comment">Log Message:</label>
-                <textarea class="form-control" rows="5" id="comment" name="messagebox" ng-model="message"></textarea>
+                <textarea class="form-control" rows="5" id="comment" name="messagebox"></textarea>
                 <input onclick="app.js" type="submit" value="Submit message">
             </form>
-
-        
-
         </div>
         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
         <button data-ng-click="testmethod2()">Print information</button>
         <br> Testing if username prints : {{name}}
         <br> Testing if comment prints : {{message}}
+        <br>
+        <br> {% for msg in messagelist %}
+        <div class="container">
+            {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+        </div>
+        {% endfor %}
 
-        <br>
-        <br>
-        {% for msg in messagelist %}
-		    <div class="container">
-        		{{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
-   			 </div>
-		{% endfor %}
-		</div>
+
+
+<!--         {% if messagelist.has_prev %}
+        <a href="{{ url_for('homepage', page=messagelist.prev_num) }}">&lt;&lt; Newer posts</a>
+        {% else %}
+        &lt;&lt;Newer posts
+        {% endif %} | 
+        {% if messagelist.has_next %}
+        <a href="{{ url_for('homepage', page=messagelist.next_num) }}">Older posts &gt;&gt;</a>
+        {% else %}
+        Older posts &gt;&gt;
+        {% endif %} -->
+    </div>
 </body>
 
 </html>
