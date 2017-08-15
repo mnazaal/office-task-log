@@ -34,13 +34,13 @@ def homepage():
 def message_post():
 	message = None
 	now = datetime.now()
-	if (request.method == "POST") and (request.form["messagebox"] != ""):
+	if (request.method == 'POST') and (request.form["messagebox"] != ""):
 		msgtext = request.form["messagebox"]  #enter the name attribute of form element within []
 		data = Logmessage(datetime.utcnow(), str(msgtext), "nazaal") #must change username, taking it from external server
 		db.session.add(data)
 		db.session.commit()
-		return render_template("index.html", messagelist=Logmessage.query.order_by(desc(Logmessage.datetime)).all())
-	return render_template("index.html", messagelist=Logmessage.query.order_by(desc(Logmessage.datetime)).all())
+		return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
+	return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 
 
 if __name__ == "__main__":
