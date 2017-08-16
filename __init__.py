@@ -31,23 +31,22 @@ def homepage():
 	now = datetime.now()
 	return render_template("index.html", messagelist=Logmessage.query.order_by(desc(Logmessage.datetime)).all()) #gets database items as an attribute
 
-@app.route("/", methods = ['POST'])
+@app.route("/", methods = ['POST'])  #changing view after a message is posted
 def message_post():
 	message = None
 	now = datetime.now()
 	msgtext = request.form["messagebox"]  #enter the name attribute of form element within []
-	if not(bool(re.match(r'^([ ]){0,}$', msgtext)) ) :  #regex which makes sure non-empty strings/spaces are not entered
+	if not(bool(re.match(r'^([ ]){0,}$', msgtext)) ) :  #regex which makes sure empty strings/spaces are not entered
 		data = Logmessage(datetime.utcnow(), str(msgtext), "nazaal") #must change username, taking it from external server
 		db.session.add(data)
 		db.session.commit()
-		# return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 		return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 	return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 
-@app.route("/", methods = ['POST'])  #show logs on a specific date
+@app.route("/", methods = ['POST'])  #changing view after user searches for a date
 def search_by_date():
 	date = request.form["date"]
-	return render_template("indx.html", filtered_data = Logmessage.query.filter(str(Logmessage.datetime.date()) == str(date)))
+	return render_template("indx.html", filtered_data = Logmessage.query.filter(Logmessage.user_name == "nazaal").all())
 
 
 if __name__ == "__main__":
