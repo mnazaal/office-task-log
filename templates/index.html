@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" data-ng-app = messageBoardApp>
+<html lang="en-US" data-ng-app=m essageBoardApp>
 
 <head>
     <meta charset="utf-8">
@@ -10,28 +10,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ url_for('static', filename='app.js')}}"</script>
-    <title>Hello world</title>
-</head>
+    <script src="{{ url_for('static', filename='app.js')}}" </script>
+    <title> Hello world </title>  
+</head >
 
 <body>
-    </script>
     <br>
     <div class="container" data-ng-controller="MessageBoardController">
-            Search specific date : 
-
+        Search specific date :
         <form>
-        <input type="date" name="date">
-        <input onclick="app.js" type="submit" value="Submit date">
+            <input type="date" name="date">
+            <input onclick="app.js" type="submit" value="Submit date">
         </form>
-
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
-        <h1>Messageboard</h1> 
-
+        <h1>Messageboard</h1>
         <label for="username">Username:</label>
-
         <input type="text" class="form-control" ng-model="name" id="user">
-
         <div class="form-group">
             <form action="{{url_for('homepage')}}" method="POST">
                 <label for="comment">Log Message:</label>
@@ -40,30 +34,21 @@
                 <input onclick="app.js" type="submit" value="Submit message">
             </form>
         </div>
-        
-<!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
+        <!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
         <button data-ng-click="testmethod2()">Print information</button>
         <br> Testing if username prints : {{name}}
         <br> Testing if comment prints : {{message}} -->
         {% for query in filtered_data %}
-        <div class = "container">
-        Search results:
-        {{ query.user_name }}, {{query.datetime}} --> {{ query.message }}
-        </div>
-        {% endfor %}
-        <hr>
-        {% for msg in messagelist %}
         <div class="container">
-        {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+            Search results: {{ query.user_name }}, {{query.datetime}} --> {{ query.message }}
         </div>
         {% endfor %}
-
-        
-
-
-
-
+        <hr> {% for msg in messagelist %}
+        <div class="container">
+            {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+        </div>
+        {% endfor %}
     </div>
 </body>
 
