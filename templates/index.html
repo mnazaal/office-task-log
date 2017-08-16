@@ -16,6 +16,7 @@
 
 <body>
     </script>
+    <br>
     <div class="container" data-ng-controller="MessageBoardController">
             Search specific date : 
 
@@ -35,6 +36,7 @@
             <form action="{{url_for('homepage')}}" method="POST">
                 <label for="comment">Log Message:</label>
                 <textarea class="form-control" rows="5" id="comment" name="messagebox"></textarea>
+                <br>
                 <input onclick="app.js" type="submit" value="Submit message">
             </form>
         </div>
@@ -44,16 +46,13 @@
         <button data-ng-click="testmethod2()">Print information</button>
         <br> Testing if username prints : {{name}}
         <br> Testing if comment prints : {{message}} -->
-        <br>
-        <br>
         {% for query in filtered_data %}
         <div class = "container">
         Search results:
         {{ query.user_name }}, {{query.datetime}} --> {{ query.message }}
-        =================================================================
         </div>
         {% endfor %}
-
+        <hr>
         {% for msg in messagelist %}
         <div class="container">
         {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
