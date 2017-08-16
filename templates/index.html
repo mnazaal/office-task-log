@@ -18,13 +18,19 @@
     </script>
     <div class="container" data-ng-controller="MessageBoardController">
             Search specific date : 
+
         <form>
         <input type="date" name="date">
+        <input onclick="app.js" type="submit" value="Submit date">
         </form>
+
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1>Messageboard</h1> 
+
         <label for="username">Username:</label>
+
         <input type="text" class="form-control" ng-model="name" id="user">
+
         <div class="form-group">
             <form action="{{url_for('homepage')}}" method="POST">
                 <label for="comment">Log Message:</label>
@@ -32,17 +38,29 @@
                 <input onclick="app.js" type="submit" value="Submit message">
             </form>
         </div>
-        <button data-ng-click="testmethod1()" type="submit">Submit information</button>
+        
+<!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
         <button data-ng-click="testmethod2()">Print information</button>
         <br> Testing if username prints : {{name}}
-        <br> Testing if comment prints : {{message}}
+        <br> Testing if comment prints : {{message}} -->
         <br>
-        <br> {% for msg in messagelist %}
-        <div class="container">
-            {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+        <br>
+        {% for query in filtered_data %}
+        <div class = "container">
+        Search results:
+        {{ query.user_name }}, {{query.datetime}} --> {{ query.message }}
+        =================================================================
         </div>
         {% endfor %}
+
+        {% for msg in messagelist %}
+        <div class="container">
+        {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+        </div>
+        {% endfor %}
+
+        
 
 
 
