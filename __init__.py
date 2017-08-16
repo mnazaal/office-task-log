@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Sequence, CreateSequence
 from datetime import datetime
 from math import ceil
+import re
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mnazaal'
@@ -34,15 +35,16 @@ def homepage():
 def message_post():
 	message = None
 	now = datetime.now()
-	# if (request.method == 'POST') and (request.form["messagebox"] != ""):
 	msgtext = request.form["messagebox"]  #enter the name attribute of form element within []
-	data = Logmessage(datetime.utcnow(), str(msgtext), "nazaal") #must change username, taking it from external server
-	db.session.add(data)
-	db.session.commit()
+	if not(bool(re.match(r'^([ ]){0,}$', msgtext)) ) :  #regex which makes sure non-empty strings/spaces are not entered
+		data = Logmessage(datetime.utcnow(), str(msgtext), "nazaal") #must change username, taking it from external server
+		db.session.add(data)
+		db.session.commit()
 		# return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
+		return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 	return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 
-@app.route("/", methods = ['POST'])
+@app.route("/", methods = ['POST'])  #show logs on a specific date
 def search_by_date():
 	date = request.form["date"]
 	return render_template("indx.html", filtered_data = Logmessage.query.filter(str(Logmessage.datetime.date()) == str(date)))
