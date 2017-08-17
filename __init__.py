@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Sequence, CreateSequence
 from datetime import datetime
+from pytz import timezone
 from math import ceil
 import re
 
@@ -25,29 +26,29 @@ class Logmessage(db.Model):
 
 db.create_all() #creating the databases
 
-
 @app.route("/")
 def homepage():
 	now = datetime.now()
 	return render_template("index.html", messagelist=Logmessage.query.order_by(desc(Logmessage.datetime)).all()) #gets database items as an attribute
 
-@app.route("/", methods = ['POST'])  #changing view after a message is posted
+@app.route("/", methods = ['POST', 'GET'])  #changing view after a message is posted
 def message_post():
-	message = None
 	now = datetime.now()
 	msgtext = request.form["messagebox"]  #enter the name attribute of form element within []
 	if not(bool(re.match(r'^([ ]){0,}$', msgtext)) ) :  #regex which makes sure empty strings/spaces are not entered
-		data = Logmessage(datetime.utcnow(), str(msgtext), "nazaal") #must change username, taking it from external server
+		current_datetime = datetime.now(timezone("Indian/Maldives"))  #take time to be GMT+5
+		data = Logmessage(current_datetime, str(msgtext), "nazaal") #must change username, taking it from external server
 		db.session.add(data)
 		db.session.commit()
 		return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 	return render_template("index.html", messagelist = Logmessage.query.order_by(desc(Logmessage.datetime)).all())
 
-@app.route("/", methods = ['POST'])  #changing view after user searches for a date
+@app.route("/", methods = ['POST', 'GET'])
 def search_by_date():
-	date = request.form["date"]
-	return render_template("indx.html", filtered_data = Logmessage.query.filter(Logmessage.user_name == "nazaal").all())
-
+    date = request.form["searchdate"]
+    if (date != None):
+        return render_template("index.html", filtered_data = Logmessage.query.order_by(desc(Logmessage.datetime)).filter(Logmessage.datetime.date() == datetime.today()))
+    return render_template("index.html", filtered_data = Logmessage.query.order_by(desc(Logmessage.datetime)).filter(Logmessage.datetime.date() == datetime.today()))
 
 if __name__ == "__main__":
 	app.debug = True

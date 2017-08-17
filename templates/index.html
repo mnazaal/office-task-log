@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" data-ng-app=m essageBoardApp>
+<html lang="en-US" data-ng-app=messageBoardApp>
 
 <head>
     <meta charset="utf-8">
@@ -11,18 +11,14 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='app.js')}}" </script>
-    <title> Hello world </title>  
-</head >
+    <title> Hello world </title>
+</head>
 
 <body>
     </script>
+    <!--I dont know how this came but if I delete it the whole page is empty onthe browser -->
     <br>
     <div class="container" data-ng-controller="MessageBoardController">
-        Search specific date :
-        <form>
-            <input type="date" name="date">
-            <input onclick="app.js" type="submit" value="Submit date">
-        </form>
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1>Messageboard</h1>
         <label for="username">Username:</label>
@@ -32,25 +28,24 @@
                 <label for="comment">Log Message:</label>
                 <textarea class="form-control" rows="5" id="comment" name="messagebox"></textarea>
                 <br>
-                <input onclick="app.js" type="submit" value="Submit message">
+                <input type="submit" value="Submit message">
+                <div align="right">
+                <label for="comment">Search logs by date:</label>
+                <input type="date" name="searchdate">
+                <input type="submit" value="Submit date">
+                </div>
             </form>
         </div>
-        <!--         <button data-ng-click="testmethod1()" type="submit">Submit information</button>
-        <button data-ng-click="testmethod1()" type="submit">Submit information</button>
-        <button data-ng-click="testmethod2()">Print information</button>
-        <br> Testing if username prints : {{name}}
-        <br> Testing if comment prints : {{message}} -->
         {% for query in filtered_data %}
         <div class="container">
-            Search results: {{ query.user_name }}, {{query.datetime}} --> {{ query.message }}
+            Search results: {{ query.user_name }}, {{ query.datetime }} --> {{ query.message }}
         </div>
         {% endfor %}
         <hr> {% for msg in messagelist %}
         <div class="container">
-            {{ msg.user_name }}, {{msg.datetime}} --> {{ msg.message }}
+            {{ msg.user_name }}, {{ msg.datetime }} --> {{ msg.message }}
         </div>
         {% endfor %}
     </div>
-    </body>
-
+</body>
 </html>

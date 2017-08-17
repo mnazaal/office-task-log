@@ -7,8 +7,7 @@ messageBoardApp.controller("MessageBoardController", function($scope){  //regist
 	}
 	$scope.testmethod2 = function(){
 		console.log("This button2 works");
-	}
-		
+	}		
 });
 
 // try {
