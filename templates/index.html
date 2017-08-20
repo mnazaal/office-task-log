@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" data-ng-app=messageBoardApp>
+<html lang="en-US">
 
 <head>
     <meta charset="utf-8">
@@ -18,34 +18,34 @@
     </script>
     <!--I dont know how this came but if I delete it the whole page is empty onthe browser -->
     <br>
-    <div class="container" data-ng-controller="MessageBoardController">
+    <div class="container">
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
-        <h1>Messageboard</h1>
+        <h1><a href="{{url_for('index')}}">Messageboard</a></h1>
         <label for="username">Username:</label>
-        <input type="text" class="form-control" ng-model="name" id="user">
-        <div class="form-group">
-            <form action="{{url_for('homepage')}}" method="POST">
+        <input type="text" name="user">
+            <form action="{{url_for('index')}}" method="POST">
                 <label for="comment">Log Message:</label>
                 <textarea class="form-control" rows="5" id="comment" name="messagebox"></textarea>
                 <br>
                 <input type="submit" value="Submit message">
+            </form>
+            <form action="{{url_for('index')}}" method="GET">
                 <div align="right">
-                <label for="comment">Search logs by date:</label>
-                <input type="date" name="searchdate">
+                <label for="date">Search logs by date:</label>
+                <input type="text" name="date" placeholder="yyyy-mm-dd">
                 <input type="submit" value="Submit date">
                 </div>
             </form>
-        </div>
-        {% for query in filtered_data %}
+        <hr>{% for query in filtered_data %}
         <div class="container">
-            Search results: {{ query.user_name }}, {{ query.datetime }} --> {{ query.message }}
+            Search results: {{ query.user_name }}, {{ query.datetime }} {{ query.message }}
         </div>
         {% endfor %}
-        <hr> {% for msg in messagelist %}
+        <hr> {% for msg in messagelist %}  <!--Listing all messages -->
         <div class="container">
-            {{ msg.user_name }}, {{ msg.datetime }} --> {{ msg.message }}
+            {{ msg.user_name }}, {{ msg.datetime }} {{ msg.message }}
         </div>
         {% endfor %}
     </div>
-</body>
+    </body>
 </html>
