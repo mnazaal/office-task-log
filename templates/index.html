@@ -36,11 +36,6 @@
                 <input type="submit" value="Submit date">
                 </div>
             </form>
-        <hr>{% for query in filtered_data %}
-        <div class="container">
-            Search results: {{ query.user_name }}, {{ query.datetime }} {{ query.message }}
-        </div>
-        {% endfor %}
         <hr> {% for msg in messagelist %}  <!--Listing all messages -->
         <div class="container">
             {{ msg.user_name }}, {{ msg.datetime }} {{ msg.message }}
