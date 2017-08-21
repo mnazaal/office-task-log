@@ -11,10 +11,10 @@ db = SQLAlchemy(app)
 
 class Logmessage(db.Model):
 	__tablename__ = "logmessages"  #table name in postgres
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, primary_key = True)
 	datetime = db.Column(db.DateTime)
-	message = db.Column(db.String(200)) #message posted
-	user_name = db.Column(db.String(80))#, ForeignKey("logappuser.username")) #the user who posted the message
+	message = db.Column(db.String(200))
+	user_name = db.Column(db.String(80))
 
 	def __init__(self, datetime, message, username):
 		self.datetime = datetime
@@ -23,7 +23,7 @@ class Logmessage(db.Model):
 
 db.create_all() #creating the databases
 
-@app.route("/", methods =['POST', 'GET'])  #changing view after a message is posted
+@app.route("/", methods =['POST', 'GET'])  #changing view after a message is posted/searched
 def index():  #name of the url to put in url_for in html
     dbobject = Logmessage.query.order_by(desc(Logmessage.datetime))
     if request.method == "GET": 

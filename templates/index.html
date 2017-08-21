@@ -21,11 +21,9 @@
     <div class="container">
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1><a href="{{url_for('index')}}">Messageboard</a></h1>
-        <label for="username">Username:</label>
-        <input type="text" name="user">
             <form action="{{url_for('index')}}" method="POST">
                 <label for="comment">Log Message:</label>
-                <textarea class="form-control" rows="5" id="comment" name="messagebox"></textarea>
+                <input class="form-control" rows="5" id="comment" name="messagebox"></input>
                 <br>
                 <input type="submit" value="Submit message">
             </form>
@@ -38,7 +36,7 @@
             </form>
         <hr> {% for msg in messagelist %}  <!--Listing all messages -->
         <div class="container">
-            {{ msg.user_name }}, {{ msg.datetime }} {{ msg.message }}
+            {{ msg.user_name }}, {{ msg.datetime.strftime("%Y-%m-%d %H:%M:%S") }} {{ msg.message }}
         </div>
         {% endfor %}
     </div>
