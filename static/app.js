@@ -1,9 +1,16 @@
 var messageBoardApp = angular.module("messageBoardApp", []);  //defining a module named messageBoard
-comment = document.getElementbyId("comment").value;
 
-messageBoardApp.controller("DateController", ['$scope', function($scope){  //registering the controller with the app/module, using the controller method with the controller and a constructor method as arguements, $scope object refers to current context for the view/it is the model used by the view
-	$scope.default = {
-		value: Date.now()
+messageBoardApp.controller("MessageController", ['$scope', function($scope, $http){  //registering the controller with the app/module, using the controller method with the controller and a constructor method as arguements, $scope object refers to current context for the view/it is the model used by the view
+	$scope.items = [];
+
+	console.log($scope.items)
+	
+	$scope.getMessages = function() {
+		$http.get("127.0.0.2:8080/messages")
+		.then(function(response) {
+			$scope.items = response.data;
+			console.log("success")
+		});
 	};
 }]);
 
