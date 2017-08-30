@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" ng-app="messageBoardApp">
 
 <head>
     <meta charset="utf-8">
@@ -10,8 +10,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ url_for('static', filename='app.js')}}" </script>
-    <title> Hello world </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.16/angular-filter.min.js"></script>
+    <script src=static/app.js </script>
+    <title> Maldives Monetary Authority </title>
 </head>
 
 <body>
@@ -30,15 +31,18 @@
             <form action="{{url_for('index')}}" method="GET">
                 <div align="right">
                 <label for="date">Search logs by date:</label>
-                <input type="text" name="date" placeholder="yyyy-mm-dd">
+                <input type="text" id="date" placeholder="yyyy-mm-dd" ng-model="datevalue">
                 <input type="submit" value="Submit date">
                 </div>
-            </form>
-        <hr> {% for msg in messagelist %}  <!--Listing all messages -->
-        <div class="container">
-            {{ msg.user_name }}, {{ msg.datetime.strftime("%Y-%m-%d %H:%M:%S") }} {{ msg.message }}
+            </form>  <!--Listing all messages -->
+        <div class="container" ng-controller="MessageController" ng-model="items">
+        <ul ng-repeat="(key, value) in items | groupBy: 'date'">
+            <b><h3>{{key}}</h3></b>
+            <hr>
+            <li ng-repeat="item in value">
+            {{item.activities.username}} ; {{item.activities.time}} - <b>{{item.activities.message}}</b>
+            </li>
+            </ul>
         </div>
-        {% endfor %}
-    </div>
     </body>
 </html>
