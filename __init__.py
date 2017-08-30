@@ -27,7 +27,7 @@ db.create_all() #creating the databases
 
 class Messages(Resource):
 	def get(self):  #returns all messages in JSON format
-		return [{'date' : msg.datetime.strftime("%Y-%m-%d"), 'activities': {'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message}} for msg in Logmessage.query.order_by(desc(Logmessage.datetime))] 
+		return [{'date' : msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in Logmessage.query.order_by(desc(Logmessage.datetime))] 
 
 api.add_resource(Messages, '/messages') #creates API
 
