@@ -32,11 +32,11 @@
                 <div align="right">
                 <label for="date">Search logs by date:</label>
                 <input type="text" id="date" placeholder="yyyy-mm-dd" ng-model="datevalue">
-                <input type="submit" value="Submit date">
+<!--                 <input type="submit" value="Submit date" ng-model="search.$"> -->
                 </div>
             </form>  <!--Listing all messages -->
         <div class="container" ng-controller="MessageController" ng-model="items">
-        <ul ng-repeat="(key, value) in items | groupBy: 'date'">
+        <ul ng-repeat="(key, value) in items | filter : datevalue | groupBy: 'date'">  <!--filters by ng-model named datevalue-->
             <b><h3>{{key}}</h3></b>
             <hr>
             <li ng-repeat="item in value">
