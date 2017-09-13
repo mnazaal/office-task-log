@@ -8,7 +8,8 @@ from pytz import timezone
 app = Flask(__name__)
 api = Api(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mnazaal'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/logappdb'
 db = SQLAlchemy(app)
 
 class Logmessage(db.Model):   #database model class
@@ -23,7 +24,7 @@ class Logmessage(db.Model):   #database model class
 		self.message = message
 		self.user_name = username
 
-db.create_all() #creating the databases
+db.create_all() #creating the databases, needs to happen once 
 
 class Messages(Resource):
 	def get(self):  #returns all messages in JSON format

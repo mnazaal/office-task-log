@@ -3,27 +3,26 @@
 
 <head>
     <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="static/angular.min.js"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootstrap.min.css">
     <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="static/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.16/angular-filter.min.js"></script>
-    <script src=static/app.js </script>
+    <script src="static/bootstrap.min.js"></script>
+    <script src="static/angular-filter.min.js"></script>
+    <script src="static/app.js"></script>
     <title> Maldives Monetary Authority </title>
 </head>
 
 <body>
-    </script>
     <!--I dont know how this came but if I delete it the whole page is empty onthe browser -->
     <br>
     <div class="container">
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1><a href="{{url_for('index')}}">Messageboard</a></h1>
             <form action="{{url_for('index')}}" method="POST">
-                <label for="comment">Log Message:</label>
+                <label for="comment">Log Message (FILE IN VAR/WWW/HTML):</label>
                 <input class="form-control" rows="5" id="comment" name="messagebox"></input>
                 <br>
                 <input type="submit" value="Submit message">
@@ -32,17 +31,17 @@
                 <div align="right">
                 <label for="date">Search logs by date:</label>
                 <input type="text" id="date" placeholder="yyyy-mm-dd" ng-model="datevalue">
-<!--                 <input type="submit" value="Submit date" ng-model="search.$"> -->
+                <button type="button" id="searchbutton">Search</button>
                 </div>
             </form>  <!--Listing all messages -->
         <div class="container" ng-controller="MessageController" ng-model="items">
-        <ul ng-repeat="(key, value) in items | filter : datevalue | groupBy: 'date'">  <!--filters by ng-model named datevalue-->
+        <ul ng-repeat="(key, value) in items | filter : datevalue | groupBy: 'date' ">  <!--filters by ng-model named datevalue-->
             <b><h3>{{key}}</h3></b>
             <hr>
             <li ng-repeat="item in value">
             {{item.username}} ; {{item.time}} - <b>{{item.message}}</b>
             </li>
-            </ul>
+        </ul>
         </div>
     </body>
 </html>
