@@ -1,8 +1,8 @@
 from flask import Flask, send_from_directory, request, current_app
 from sqlalchemy import Table, Column, Integer, DateTime, desc
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Resource, Api, reqparse, abort
-from datetime import datetime
+from flask_restful import Resource, Api, reqparse
+from datetime import datetime, time
 from pytz import timezone
 
 app = Flask(__name__)
@@ -27,14 +27,23 @@ db.create_all() #creating the databases, needs to happen once
 
 class MessagesList(Resource):
     def get(self):  #returns all messages in JSON format
-        return [{'date': msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in Logmessage.query.order_by(desc(Logmessage.datetime))] 
+        querydata = Logmessage.query.order_by(desc(Logmessage.datetime))
+        jsondata = [{'date': msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in querydata]
+        datefield = request.args.get('date')  #gets the date form the user
+        if datefield:
+            dateobject = datetime.strptime(datefield, '%Y-%m-%d') #change the string to Python date object
+            max_time = datetime.combine(dateobject, time.max)
+            filteredquery = querydata.filter(Logmessage.datetime >= dateobject).filter(Logmessage.datetime <= max_time)  #combining both queries with and results in a boolean value error
+            return [{'date': msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in filteredquery]
+        else:
+            return jsondata
     
 class Message(Resource):    
     def post(self):
-        parser = reqparse.RequestParser()
+        parser = reqparse.RequestParser() #we need to parse what we get from AngularJS
         parser.add_argument('message', type=str, help='Event logged by user')
         args = parser.parse_args()
-        msgtext = args['message'] #use form.get for HTTP POST methods
+        msgtext = args['message']  #this is the message used in postman key value
         if msgtext:
             current_datetime = datetime.now(timezone("Indian/Maldives"))  #take time to be GMT+5
             username = "Nazaal"
@@ -43,21 +52,24 @@ class Message(Resource):
             db.session.commit()
             return {'date': current_datetime.strftime("%Y-%m-%d"), 'username': username, 'time': current_datetime.strftime("%H:%M:%S"), 'message': msgtext}, 201
 
-class Search(Resource):
-    def get(self):
-        searchdate = request.form.get('date')
-        if searchdate:
-            dateobject = datetime.strptime(datevar, '%Y-%m-%d') #change the string to Python date object
-            max_time = datetime.combine(dateobject, time.max)
-            json_search = [{'date' : msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in Logmessage.query.filter(Logmessage.datetime >= dateobject and Logmessage.datetime <= max_time)]
-            return json_search
+# class Search(Resource):
+#     def get(self):
+#         parser = reqparse.RequestParser()
+#         parser.add_argument('date', type=str, help='Date to search')
+#         args = parser.parse_args()
+#         searchdate = args['date']
+#         if searchdate:
+#             dateobject = datetime.strptime(searchdate, '%Y-%m-%d') #change the string to Python date object
+#             max_time = datetime.combine(dateobject, time.max)
+#             json_search = [{'date' : msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in Logmessage.query.all().filter(Logmessage.datetime >= dateobject and Logmessage.datetime <= max_time)]
+#             return json_search
 
 
 
 
-api.add_resource(MessagesList, '/messages') #creates API to show messages
+api.add_resource(MessagesList, '/messages') #creates API to show messages, using ?date=2017-09-12 to search by date
 api.add_resource(Message, '/messages') #creates API to post messages
-api.add_resource(Search, '/messages/search')
+# api.add_resource(Search, '/messages/search') #search API
 
 
 # @app.route("/", methods =['POST', 'GET'])  #changing view after a message is posted/searched

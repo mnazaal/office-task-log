@@ -15,25 +15,23 @@
     <title> Maldives Monetary Authority </title>
 </head>
 
-<body>
+<body ng-controller = "ShowController">
     <br>
     <div class="container">
         <!--This runs the angular module named messageboardApp inthe div, and makes it a bootstrap container -->
         <h1><a href="/">Messageboard</a></h1>
-            <form action="/" method="POST" ng-controller="PostController">
-                <label for="comment">Log Message:</label>
-                <input class="form-control" rows="5" id="comment" name="messagebox" ng-model="message"></input>
+            <form action="/" ng-controller="PostController"> <!--Note how we dont use methods=GET here-->
+                <label for="logmessage">Log Message:</label>
+                <input class="form-control" rows="5" id="comment" name="messagebox" ng-model="message">
                 <br>
                 <input type="submit" value="Submit message" ng-click="postdata()">
             </form>
-            <form action="/" method="GET">
                 <div align="right">
                 <label for="date">Search logs by date:</label>
-                <input type="text" name="datesearchbox" placeholder="yyyy-mm-dd" ng-model="datevalue">
-                <button type="button" id="searchbutton">Search</button>
+                <input type="text" name="date" placeholder="yyyy-mm-dd" ng-model="datevalue">
+                <input type="submit" value="Search by Date" ng-click="searchdata()">
                 </div>
-            </form>  <!--Listing all messages -->
-        <div class="container" ng-controller="ShowController" ng-model="items">
+        <div class="container" ng-model="items">
         <ul ng-repeat="(key, value) in items | groupBy: 'date' ">  <!--filters by ng-model named datevalue-->
             <b><h3>{{key}}</h3></b>
             <hr>
