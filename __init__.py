@@ -8,7 +8,6 @@ from pytz import timezone
 app = Flask(__name__)
 api = Api(app)
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/logappdb'
 db = SQLAlchemy(app)
 
@@ -44,8 +43,21 @@ class Message(Resource):
             db.session.commit()
             return {'date': current_datetime.strftime("%Y-%m-%d"), 'username': username, 'time': current_datetime.strftime("%H:%M:%S"), 'message': msgtext}, 201
 
+class Search(Resource):
+    def get(self):
+        searchdate = request.form.get('date')
+        if searchdate:
+            dateobject = datetime.strptime(datevar, '%Y-%m-%d') #change the string to Python date object
+            max_time = datetime.combine(dateobject, time.max)
+            json_search = [{'date' : msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in Logmessage.query.filter(Logmessage.datetime >= dateobject and Logmessage.datetime <= max_time)]
+            return json_search
+
+
+
+
 api.add_resource(MessagesList, '/messages') #creates API to show messages
 api.add_resource(Message, '/messages') #creates API to post messages
+api.add_resource(Search, '/messages/search')
 
 
 # @app.route("/", methods =['POST', 'GET'])  #changing view after a message is posted/searched

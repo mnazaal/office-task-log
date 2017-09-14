@@ -29,12 +29,12 @@
             <form action="/" method="GET">
                 <div align="right">
                 <label for="date">Search logs by date:</label>
-                <input type="text" id="date" placeholder="yyyy-mm-dd" ng-model="datevalue">
+                <input type="text" name="datesearchbox" placeholder="yyyy-mm-dd" ng-model="datevalue">
                 <button type="button" id="searchbutton">Search</button>
                 </div>
             </form>  <!--Listing all messages -->
         <div class="container" ng-controller="ShowController" ng-model="items">
-        <ul ng-repeat="(key, value) in items | filter : datevalue | groupBy: 'date' ">  <!--filters by ng-model named datevalue-->
+        <ul ng-repeat="(key, value) in items | groupBy: 'date' ">  <!--filters by ng-model named datevalue-->
             <b><h3>{{key}}</h3></b>
             <hr>
             <li ng-repeat="item in value">
