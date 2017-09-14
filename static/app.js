@@ -18,19 +18,14 @@ messageBoardApp.controller("ShowController", function($scope, $http){  //registe
 });
 
 messageBoardApp.controller("PostController", function($scope, $http){
-	$scope.postdata = function(message){
-		var date = new Date();  //getting current date
-		$scope.datestring = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-		var data = {
-			date: $scope.datestring,
-			username: "nazaal", //also gonna fix soon
-			message: message,
-			time: "right now"  //gonna fix soon
-		}
-		$http.post('api/messages', JSON.stringify(data))
+	$scope.postdata = function() {
+        var data = {
+        	"message": $scope.message
+        }
+		$http.post("http://127.0.0.1/api/messages", JSON.stringify(data))
 			.then(function(response) {
-				if (response.data)
-				console.log("Post data send successfully");
+				console.log("Posted data successfully")
+				$scope.items.push(response.data);
 			},
 			function(error) {
 				console.log(error)
