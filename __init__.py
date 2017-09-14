@@ -64,13 +64,9 @@ class Message(Resource):
 #             json_search = [{'date' : msg.datetime.strftime("%Y-%m-%d"), 'username': msg.user_name,  'time': msg.datetime.strftime("%H:%M:%S"), 'message': msg.message} for msg in Logmessage.query.all().filter(Logmessage.datetime >= dateobject and Logmessage.datetime <= max_time)]
 #             return json_search
 
-
-
-
 api.add_resource(MessagesList, '/messages') #creates API to show messages, using ?date=2017-09-12 to search by date
 api.add_resource(Message, '/messages') #creates API to post messages
 # api.add_resource(Search, '/messages/search') #search API
-
 
 # @app.route("/", methods =['POST', 'GET'])  #changing view after a message is posted/searched
 # def index():  #name of the url to put in url_for in html

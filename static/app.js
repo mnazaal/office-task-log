@@ -1,12 +1,25 @@
-var messageBoardApp = angular.module("messageBoardApp", ['angular.filter']);  //defining a module named messageBoard
+var messageBoardApp = angular.module("messageBoardApp");  //defining a module named messageBoard
 //reminder to install angular-filter via npm or bower
 
 var api_url = "http://127.0.0.1/api/messages"
 
 messageBoardApp.controller("ShowController", function($scope, $http){  //registering the controller with the app/module, using the controller method with the controller and a constructor method as arguements, $scope object refers to current context for the view/it is the model used by the view
-    
+  //   $scope.returnlist = function(datequery){  //returns a filtered list if an argument is passed, else shows everything
+  //   	if (datequery){
+  //   		datequery = "?date="+$scope.datevalue;
+  //   	}
+		// $http.get(api_url+datequery)
+		//     .then(function(response) {
+		//     	console.log("Searched data successfully")
+		//         $scope.items = response.data;
+		//     },
+		//     function(error) {
+		//     	console.log(error)
+		//     });
+  //   }
+
     $scope.searchdata = function() {
-		$http.get("http://127.0.0.1/api/messages?date="+$scope.datevalue)
+		$http.get(api_url+"?date="+$scope.datevalue)
 		    .then(function(response) {
 		    	console.log("Searched data successfully")
 		        $scope.items = response.data;
@@ -16,7 +29,7 @@ messageBoardApp.controller("ShowController", function($scope, $http){  //registe
 		    });
 	}
 
-	$http.get("http://127.0.0.1/api/messages")
+	$http.get(api_url)
 		.then(function(response) {
 			console.log("Received data successfully")  //debugging code
 			$scope.items = response.data;
@@ -31,7 +44,7 @@ messageBoardApp.controller("PostController", function($scope, $http){
         var data = {
         	"message": $scope.message
         } //for the key to post inthe http method
-		$http.post("http://127.0.0.1/api/messages", JSON.stringify(data))
+		$http.post(api_url, JSON.stringify(data))
 			.then(function(response) {
 				$scope.items.push(response.data);
 				console.log("Posted data successfully")  //this message is not showing
